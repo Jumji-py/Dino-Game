@@ -10,7 +10,7 @@ from Settings import pause_play
 
 pygame.init()
 pygame.font.init()
-pygame.mixer.init()
+pygame.mixer.pre_init(44100, 16, 2, 4096)
 
 # Defining the window dimensions
 WIDTH, HEIGHT = 900, 500
@@ -36,9 +36,6 @@ BG = pygame.image.load(
 
 show_hitbox = False
 
-pygame.time.set_timer(pygame.USEREVENT+1, random.randrange(1000, 2000))
-DINO_HIT = pygame.USEREVENT+2
-
 # Setting the window caption and icon
 pygame.display.set_caption("Dino Game")
 
@@ -59,6 +56,16 @@ def draw_window(dino, distance, settings, mouse):
     settings.draw_pause(WIN, mouse)
 
     pygame.display.update()
+    
+def set_allowed_events(SPAWN_ENTITIES, DINO_HIT):
+    pygame.event.set_allowed(None)
+    pygame.event.set_allowed([
+        pygame.QUIT,
+        pygame.KEYDOWN,
+        pygame.MOUSEBUTTONDOWN,
+        SPAWN_ENTITIES,
+        DINO_HIT
+        ])
 
 # Mainloop function
 def main():
@@ -71,6 +78,12 @@ def main():
     birds = np.array([])
     distance = 0
     hit_dino = False
+    
+    SPAWN_ENTITIES = pygame.USEREVENT+1
+    pygame.time.set_timer(SPAWN_ENTITIES, random.randrange(1250, 3000))
+    DINO_HIT = pygame.USEREVENT+2
+
+    set_allowed_events(SPAWN_ENTITIES, DINO_HIT)
 
     # Creating the character Rect
     dino = player(110, 316, DINO_WIDTH, DINO_WIDTH)
@@ -104,11 +117,11 @@ def main():
                 if event.key == pygame.K_p:
                     settings.settings_window(WIN)
             
-            if event.type == pygame.USEREVENT+1:
+            if event.type == SPAWN_ENTITIES:
                 x = random.randrange(0,3)
                 if x == 1:
                     cacti = np.append(cacti, Cactus(WIDTH, 316, CACTUS_WIDTH, CACTUS_HEIGHT))
-                elif x == 0:
+                elif x == 2:
                     birds = np.append(birds, Bird(WIDTH, 270, BIRD_WIDTH, BIRD_HEIGHT))
 
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -128,9 +141,13 @@ def main():
         mouse = pygame.mouse.get_pos()
         dino.move(keys_pressed, JUMP_SOUND)
         for one_cactus in cacti:
-            one_cactus.move(dino, ENEMY_VEL, DINO_HIT, cacti)
+            one_cactus.move(dino, ENEMY_VEL, DINO_HIT)
+            if one_cactus.x < (0 - one_cactus.width):
+                cacti = np.delete(cacti, np.where(cacti == one_cactus))
         for one_bird in birds:
-            one_bird.move(dino, ENEMY_VEL, DINO_HIT, birds)
+            one_bird.move(dino, ENEMY_VEL, DINO_HIT)
+            if one_bird.x < (0 - one_bird.width):
+                birds = np.delete(birds, np.where(birds == one_bird))
 
         draw_window(dino, distance, settings, mouse)
     
