@@ -19,7 +19,6 @@ class pause_play(object):
         self.SETTINGS_X = WIDTH//2 - self.SETTINGS_WIDTH//2
         self.SETTINGS_Y = HEIGHT//2 - self.SETTINGS_HEIGHT//2
 
-        
     def draw_pause(self, WIN, mouse):
         if 10 <= mouse[0] <= self.width + 10 and 10 <= mouse[1] <= self.height + 10:
             WIN.blit(self.PAUSE_BCLICKED, (self.x, self.y))
@@ -28,7 +27,7 @@ class pause_play(object):
         
     def settings_window(self, WIN):
         settings_run = True
-        while settings_run == True:
+        while settings_run:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -44,6 +43,10 @@ class pause_play(object):
                         settings_run = False
 
             mouse = pygame.mouse.get_pos()
+            if 10 <= mouse[0] <= self.width + 10 and 10 <= mouse[1] <= self.height + 10:
+                WIN.blit(self.PAUSE_BCLICKED, (self.x, self.y))
+            else:
+                WIN.blit(self.PAUSE_B, (self.x, self.y))
             if (self.SETTINGS_X + 82) <= mouse[0] <= (self.SETTINGS_X + 82 + self.width) and (self.SETTINGS_Y + 60) <= mouse[1] <= (self.SETTINGS_Y + 60 + self.height):
                 WIN.blit(self.SETTINGS_PLAY_BCLICKED, (self.SETTINGS_X, self.SETTINGS_Y))
             else:
