@@ -12,9 +12,21 @@ You can install them via:
 ## Game Controls:
 __Jumping:__ Use the `SPACE` key or `UP_ARROW` key.  
 __Pause and play:__ Press `p` to pause or play the game, or click the pause/play button on the screen.  
-__Show hit boxes:__ I have also added the ability to show the hit boxes of all objects in the game. To activate or disable this, press `h`.  
+__Show hit boxes:__ I have also added the ability to show the hit boxes of all objects in the game. To activate or disable this, press `h`.
+
+## Previous Version:
+- v0.0.1
+
+## Latest Version:
+- v0.0.2
+
+## New Features:
+Major bug fixes including:
+- Improved spawning of the cacti and birds,
+- Improved speed/FPS of the game,
+- The game will no longer slow down over time,
+- More detailed hit boxes for the birds.
 
 ## Notes:
 I have not yet added a duck feature for the dinosaur/player, thus the dinosaur/player cannot duck.  
-I am still developing this game, and this is just the first version of it. I will later add more feature to the game over time.  
-I have also included the .EXE file of the game, but it will only run if it is in the same directorry as the `Assets` folder.  
+I am still developing this game, and this is just the first version of it. I will later add more features to the game over time.  
