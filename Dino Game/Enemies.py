@@ -28,14 +28,12 @@ class Cactus(object):
             for chitBox in self.hitBox:
                 pygame.draw.rect(WIN, (255, 0, 0), chitBox, 2)
 
-    def move(self, dino, ENEMY_VEL, DINO_HIT, cacti):
+    def move(self, dino, ENEMY_VEL, DINO_HIT):
         self.x -= ENEMY_VEL
         for hitBox in dino.hitBoxs:
             for chitBox in self.hitBox:
                 if Rect(hitBox).colliderect(Rect(chitBox)):
                     pygame.event.post(pygame.event.Event(DINO_HIT))
-        if self.x < (0-self.width):
-            cacti = np.delete(cacti, np.where(cacti == self))
 
 class Bird(object):
     BIRD = [pygame.image.load(os.path.join("Assets", "bird_up.png")), pygame.image.load(os.path.join("Assets", "bird_down.png"))]
@@ -46,7 +44,11 @@ class Bird(object):
         self.width = BIRD_WIDTH
         self.height = BIRD_HEIGHT
         self.flyCount = 0
-        self.hitBox = Rect(self.x, self.y, self.width, self.height)
+        self.hitBox = np.array([
+            Rect(self.x, self.y, 41, 25),
+            Rect(self.x, self.y + 10, 41, 19),
+            Rect(self.x + 16, self.y + 29, 8, 9)
+            ])
 
     def draw(self, WIN, show_hitbox):
         if self.flyCount + 1 >= 30:
@@ -54,14 +56,24 @@ class Bird(object):
         if True:
             WIN.blit(self.BIRD[self.flyCount//15], (self.x, self.y))
             self.flyCount += 1
-        self.hitBox = Rect(self.x, self.y, self.width, self.height)
+        self.hitBox = np.array([
+            Rect(self.x, self.y, 41, 25),
+            Rect(self.x, self.y + 10, 41, 19),
+            Rect(self.x + 16, self.y + 29, 8, 9)
+            ])
         if show_hitbox:
-            pygame.draw.rect(WIN, (255, 0, 0), self.hitBox, 2)
+            if not self.flyCount//15:
+                pygame.draw.rect(WIN, (255, 0, 0), self.hitBox[0], 2)
+            else:
+                pygame.draw.rect(WIN, (255, 0, 0), self.hitBox[1], 2)
+                pygame.draw.rect(WIN, (255, 0, 0), self.hitBox[2], 2)
 
-    def move(self, dino, ENEMY_VEL, DINO_HIT, birds):
+    def move(self, dino, ENEMY_VEL, DINO_HIT):
         self.x -= ENEMY_VEL
         for hitBox in dino.hitBoxs:
-            if Rect(hitBox).colliderect(self.hitBox):
-                pygame.event.post(pygame.event.Event(DINO_HIT))
-        if self.x < (0-self.width):
-            birds = np.delete(birds, np.where(birds == self))
+            if self.flyCount//15:
+                if Rect(hitBox).colliderect(self.hitBox[1]) or Rect(hitBox).colliderect(self.hitBox[2]):
+                    pygame.event.post(pygame.event.Event(DINO_HIT))
+            else:
+                if Rect(hitBox).colliderect(self.hitBox[0]):
+                    pygame.event.post(pygame.event.Event(DINO_HIT))
