@@ -87,7 +87,7 @@ def main():
 
     # Creating the character Rect
     dino = player(110, 316, DINO_WIDTH, DINO_WIDTH)
-    settings = pause_play(10, 10, 34, 34, WIDTH, HEIGHT)
+    settings = Settings(10, 10, 34, 34, WIDTH, HEIGHT)
 
     clock = pygame.time.Clock()
     run = True
@@ -130,7 +130,7 @@ def main():
                     elif x == 3:
                         birds = np.append(birds, Bird(WIDTH, 296, 41, 38))
                     elif x == 4:
-                        birds = np.append(birds, Bird(WIDTH, 270, 41, 38)
+                        birds = np.append(birds, Bird(WIDTH, 270, 41, 38))
                                           
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if 10 <= mouse[0] <= settings.width + 10 and 10 <= mouse[1] <= settings.height + 10:
@@ -159,7 +159,7 @@ def main():
                 if one_bird.x < (0 - one_bird.width):
                     birds = np.delete(birds, np.where(birds == one_bird))
 
-            draw_window(settings.saved_data, dino, distance, settings, mouse)
+            draw_game(settings.saved_data, dino, distance, settings, mouse)
                                           
     settings.save_data(distance)               
     
