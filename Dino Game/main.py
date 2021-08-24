@@ -6,7 +6,7 @@ import sys
 
 from Player import player
 from Enemies import Cactus, Bird
-from Settings import pause_play
+from Settings import Settings
 from Title_screen import Title_screen
 
 pygame.init()
