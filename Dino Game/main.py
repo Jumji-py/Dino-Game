@@ -124,17 +124,17 @@ def main():
                 if event.type == SPAWN_ENTITIES:
                     x = random.randrange(0,5)
                     if x == 1:
-                        cacti = np.append(cacti, Cactus(WIDTH, 316, CACTUS_WIDTH, CACTUS_HEIGHT))
+                        cacti = np.append(cacti, Cactus(WIDTH, 316, 24, 44))
                     elif x == 2:
                         birds = np.append(birds, Bird(WIDTH, 327, 41, 38))
                     elif x == 3:
                         birds = np.append(birds, Bird(WIDTH, 296, 41, 38))
                     elif x == 4:
                         birds = np.append(birds, Bird(WIDTH, 270, 41, 38)
-
+                                          
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if 10 <= mouse[0] <= settings.width + 10 and 10 <= mouse[1] <= settings.height + 10:
-                        settings.settings_window(WIN, distance, title_screen)
+                        settings.settings_window(WIN, distance, title_screen)  
 
                 if event.type == DINO_HIT:
                     hit_dino = True
