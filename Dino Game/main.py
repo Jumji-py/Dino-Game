@@ -119,7 +119,7 @@ def main():
                             show_hitbox = True
 
                     if event.key == pygame.K_p:
-                        settings.settings_window(WIN)
+                        settings.settings_window(WIN, distance, title_screen)
             
                 if event.type == SPAWN_ENTITIES:
                     x = random.randrange(0,5)
@@ -134,7 +134,7 @@ def main():
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if 10 <= mouse[0] <= settings.width + 10 and 10 <= mouse[1] <= settings.height + 10:
-                        settings.settings_window(WIN)
+                        settings.settings_window(WIN, distance, title_screen)
 
                 if event.type == DINO_HIT:
                     hit_dino = True
