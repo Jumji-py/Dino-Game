@@ -11,7 +11,7 @@ You can install them via:
 
 ## Game Controls:
 __Jumping:__ Use the `SPACE` key or `UP_ARROW` key.  
-__Ducking:__ Press the `DOWN_ARROW` key.
+__Ducking:__ Press the `DOWN_ARROW` key.  
 __Pause and play:__ Press `p` to pause or play the game, or click the pause/play button on the screen.  
 __Show hit boxes:__ I have also added the ability to show the hit boxes of all objects in the game. To activate or disable this, press `h`.
 
