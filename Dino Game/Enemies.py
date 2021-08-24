@@ -5,8 +5,8 @@ from pygame.rect import Rect
 
 class Cactus(object):
     def __init__(self, x, y, width, height):
-        self.CACTUS_IMAGE = pygame.transform.scale(pygame.image.load(
-            os.path.join("Assets", "cactus.png")), (width, height))
+        self.CACTUS_IMAGE = pygame.image.load(
+            os.path.join("Assets", "cactus.png"))
         self.x = x
         self.y = y
         self.width = width
@@ -30,10 +30,15 @@ class Cactus(object):
 
     def move(self, dino, ENEMY_VEL, DINO_HIT):
         self.x -= ENEMY_VEL
-        for hitBox in dino.hitBoxs:
+        if dino.ducking:
             for chitBox in self.hitBox:
-                if Rect(hitBox).colliderect(Rect(chitBox)):
+                if Rect(dino.duck_hitbox).colliderect(chitBox):
                     pygame.event.post(pygame.event.Event(DINO_HIT))
+        else:
+            for hitBox in dino.hitBoxs:
+                for chitBox in self.hitBox:
+                    if Rect(hitBox).colliderect(Rect(chitBox)):
+                        pygame.event.post(pygame.event.Event(DINO_HIT))
 
 class Bird(object):
     BIRD = [pygame.image.load(os.path.join("Assets", "bird_up.png")), pygame.image.load(os.path.join("Assets", "bird_down.png"))]
@@ -70,10 +75,18 @@ class Bird(object):
 
     def move(self, dino, ENEMY_VEL, DINO_HIT):
         self.x -= ENEMY_VEL
-        for hitBox in dino.hitBoxs:
+        if dino.ducking:
             if self.flyCount//15:
-                if Rect(hitBox).colliderect(self.hitBox[1]) or Rect(hitBox).colliderect(self.hitBox[2]):
+                if Rect(dino.duck_hitbox).colliderect(self.hitBox[1]) or Rect(dino.duck_hitbox).colliderect(self.hitBox[2]):
                     pygame.event.post(pygame.event.Event(DINO_HIT))
             else:
-                if Rect(hitBox).colliderect(self.hitBox[0]):
+                if Rect(dino.duck_hitbox).colliderect(self.hitBox[0]):
                     pygame.event.post(pygame.event.Event(DINO_HIT))
+        else:
+            for hitBox in dino.hitBoxs:
+                if self.flyCount//15:
+                    if Rect(hitBox).colliderect(self.hitBox[1]) or Rect(hitBox).colliderect(self.hitBox[2]):
+                        pygame.event.post(pygame.event.Event(DINO_HIT))
+                else:
+                    if Rect(hitBox).colliderect(self.hitBox[0]):
+                        pygame.event.post(pygame.event.Event(DINO_HIT))
